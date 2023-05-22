@@ -19,5 +19,32 @@ class ProductServices {
         const data = await ProductModel.getAllProducts();
         return data;
     }
+
+    async getsingleProduct(req, res){
+        let productId = req.params.productId;
+        let product = await ProductModel.getsingleProduct(productId);
+        console.log("product", product); 
+        return product;
+    }
+
+    async deleteproduct(req, res){
+        let productId = req.params.productId;
+        let product = await ProductModel.deleteproduct(productId);
+        console.log("product", product); 
+        return
+    }
+
+    async updateProduct(req, res){
+        let productId = req.params.productId;
+        const product = {
+            title: req.body.title,
+            description: req.body.description,
+            price: req.body.price,
+            quantity: req.body.quantity,
+            categoryId: req.body.categoryId,
+        };
+        await ProductModel.updateProduct(productId, product);
+        return true;
+    }
 }
 module.exports = new ProductServices();

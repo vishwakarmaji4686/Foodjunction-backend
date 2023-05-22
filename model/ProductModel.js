@@ -1,20 +1,4 @@
-const mysql = require("mysql");
-
-const connection = mysql.createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USERNAME,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
-});
-
-connection.connect(function (error) {
-    if (error) {
-        console.log("Unable to connect with database");
-    } else {
-        console.log("Database Connected");
-    }
-});
-
+const { connection } = require("../Config/MySql");
 class ProductModel {
 
     constructor() { }
@@ -44,6 +28,45 @@ class ProductModel {
             });
         });
     }
-
+    getsingleProduct(productId){
+        return new Promise((resolve, reject) => {
+            const getProducts = `SELECT * FROM products WHERE id='${productId}'`;
+            connection.query(getProducts, function (error, result) {
+                if (error) {
+                    reject(error);
+                } else {
+                    let product = {}
+                    if(result && result.lenght > 0){
+                        product = result[0]
+                    }
+                    resolve(result);
+                }
+            });
+        });
+    }
+    deleteproduct(productId){
+        return new Promise((resolve, reject) => {
+            const getProducts = `DELETE  FROM products WHERE id='${productId}'`;
+            connection.query(getProducts, function (error, result) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(true);
+                }
+            });
+        });
+    }
+    updateProduct(id, product){
+        return new Promise((resolve, reject) => {
+            const update = `UPDATE products SET title='${product.title}', description='${product.description}', price='${product.price}', quantity='${product.quantity}', category_id='${product.categoryId}'  WHERE id ='${id}'`
+            connection.query(update, function (error, result) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(true);
+                }
+            });
+        });
+    }
 }
 module.exports = new ProductModel();
