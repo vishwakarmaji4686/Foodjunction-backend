@@ -1,4 +1,4 @@
-const ProductModel = require("../../model/ProductModel");
+const ProductModel = require("../../model/admin/ProductModel");
 
 class ProductServices {
     constructor() { }

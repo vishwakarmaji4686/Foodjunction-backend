@@ -1,4 +1,4 @@
-const { connection } = require("../Config/MySql");
+const { connection } = require("../../Config/MySql");
 class ProductModel {
 
     constructor() { }

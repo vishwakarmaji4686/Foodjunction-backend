@@ -41,6 +41,25 @@ class UserModel {
             });
         });
     }
+    
+    getUserByEmailId(emailId) {
+        return new Promise((resolve, reject) => {
+            let adduser = `SELECT * FROM users WHERE email='${emailId}'`
+            console.log("adduser", adduser);
+            connection.query(adduser, function (error, result) {
+                if (error) {
+                    reject(error)
+                } else {
+                    let user = null
+                    if (result && result.length > 0) {
+                        user = result[0];
+                    }
+                    resolve(user);
+                }
+            });
+        });
+    }
+
     deleteUser(userId) {
         return new Promise((resolve, reject) => {
             let adduser = `DELETE FROM users WHERE id='${userId}'`
